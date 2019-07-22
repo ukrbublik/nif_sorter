@@ -13,4 +13,5 @@ jobs:
       - run: make dep
       - run: make compile
       - run: make test
+      - run: make bench/fast
 
