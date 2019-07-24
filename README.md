@@ -7,7 +7,7 @@ NIF faster sort typed list of strings/integers/floats (with C++ `std::sort`)
 ### Installation
 Add to `deps` in `mix.exs`:
 ```elixir
-{:nif_sorter, "~> 0.2.1"}
+{:nif_sorter, "~> 0.2.2"}
 ```
 Works on Elixir 1.7+
 

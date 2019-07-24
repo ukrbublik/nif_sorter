@@ -153,10 +153,11 @@ ERL_NIF_TERM typed_sort_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 }
 
 static ErlNifFunc nif_funcs[] = {
-    {"str_sort", 1, str_sort_nif},
-    {"int_sort", 1, int_sort_nif},
-    {"float_sort", 1, float_sort_nif},
-    {"sort", 1, typed_sort_nif},
+    // tip: ERL_NIF_DIRTY_JOB_CPU_BOUND need for parallel execution
+    {"str_sort", 1, str_sort_nif, ERL_NIF_DIRTY_JOB_CPU_BOUND},
+    {"int_sort", 1, int_sort_nif, ERL_NIF_DIRTY_JOB_CPU_BOUND},
+    {"float_sort", 1, float_sort_nif, ERL_NIF_DIRTY_JOB_CPU_BOUND},
+    {"sort", 1, typed_sort_nif, ERL_NIF_DIRTY_JOB_CPU_BOUND},
 };
 
 ERL_NIF_INIT(Elixir.NifSorter, nif_funcs, NULL, NULL, NULL, NULL)

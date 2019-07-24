@@ -26,7 +26,8 @@ defmodule NifSorterBench do
       formatters: formatters(with_md, "bench_results/int.md"),
       time: 1,
       memory_time: 0,
-      warmup: 0.1
+      warmup: 0.1,
+      parallel: 4,
     )
   end
 
@@ -45,7 +46,8 @@ defmodule NifSorterBench do
       formatters: formatters(with_md, "bench_results/float.md"),
       time: 1,
       memory_time: 0,
-      warmup: 0.1
+      warmup: 0.1,
+      parallel: 4,
     )
   end
 
@@ -64,7 +66,8 @@ defmodule NifSorterBench do
       formatters: formatters(with_md, "bench_results/str.md"),
       time: 1,
       memory_time: 0,
-      warmup: 0.1
+      warmup: 0.1,
+      parallel: 4,
     )
   end
 
