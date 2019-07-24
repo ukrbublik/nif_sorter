@@ -19,9 +19,9 @@ defmodule NifSorterBench do
       },
       inputs: %{
         "100 integers"  => make_int_list(100),
-        "1K integers"   => make_int_list(1_000),
-        "10K integers"  => make_int_list(10_000),
-        "100K integers" => make_int_list(100_000),
+        "1000 integers"   => make_int_list(1_000),
+        "10000 integers"  => make_int_list(10_000),
+        "100000 integers" => make_int_list(100_000),
       },
       formatters: formatters(with_md, "bench_results/int.md"),
       time: 1,
@@ -38,13 +38,13 @@ defmodule NifSorterBench do
       },
       inputs: %{
         "100 floats"  => make_float_list(100),
-        "1K floats"   => make_float_list(1_000),
-        "10K floats"  => make_float_list(10_000),
-        "100K floats" => make_float_list(100_000),
+        "1000 floats"   => make_float_list(1_000),
+        "10000 floats"  => make_float_list(10_000),
+        "100000 floats" => make_float_list(100_000),
       },
       formatters: formatters(with_md, "bench_results/float.md"),
       time: 1,
-      memory_time: 1,
+      memory_time: 0,
       warmup: 0.1
     )
   end
@@ -57,13 +57,13 @@ defmodule NifSorterBench do
       },
       inputs: %{
         "100 strings"  => make_str_list(100),
-        "1K strings"   => make_str_list(1_000),
-        "10K strings"  => make_str_list(10_000),
-        "100K strings" => make_str_list(100_000),
+        "1000 strings"   => make_str_list(1_000),
+        "10000 strings"  => make_str_list(10_000),
+        "100000 strings" => make_str_list(100_000),
       },
       formatters: formatters(with_md, "bench_results/str.md"),
       time: 1,
-      memory_time: 1,
+      memory_time: 0,
       warmup: 0.1
     )
   end

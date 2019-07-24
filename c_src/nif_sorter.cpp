@@ -1,17 +1,10 @@
 #include <erl_nif.h>
 #include <iostream>
 #include <string>
+#include <numeric>
 #include <vector>
 #include <algorithm>
 using namespace std;
-
-typedef ERL_NIF_TERM(*nif_func_1)(ErlNifEnv*, ERL_NIF_TERM);
-
-template<typename T>
-using nif_get_fun = int(*)(ErlNifEnv*, ERL_NIF_TERM, T*);
-
-template<typename T>
-using nif_make_fun = ERL_NIF_TERM(*)(ErlNifEnv*, T);
 
 typedef enum {
     NIF_UNKNOWN = 0,
@@ -20,27 +13,55 @@ typedef enum {
     NIF_FLOAT
 } _NifType;
 
-template <typename T, nif_get_fun<T> get_fun, nif_make_fun<T> make_fun>
-ERL_NIF_TERM num_sort (ErlNifEnv* env, ERL_NIF_TERM list)
+typedef ERL_NIF_TERM(*nif_func_1)(ErlNifEnv*, ERL_NIF_TERM);
+
+template<typename T>
+using nif_get_fun = int(*)(ErlNifEnv*, ERL_NIF_TERM, T*);
+
+template <typename T>
+vector<size_t> sort_indexes(const vector<T> &vals)
 {
+    vector<size_t> idxs(vals.size());
+    iota(idxs.begin(), idxs.end(), 0);
+
+    sort(idxs.begin(), idxs.end(),
+       [&vals](size_t i1, size_t i2) {return vals[i1] < vals[i2];});
+
+    return idxs;
+}
+
+inline int enif_get_string(ErlNifEnv* env, ERL_NIF_TERM term, string* pStr)
+{
+    ErlNifBinary bin;
+    if (!enif_inspect_binary(env, term, &bin)) {
+        //cerr << "[nif_sorter] Can't get string info of cell at index " << i << endl;
+        return 0;
+    }
+    string str = string((const char*) bin.data, bin.size);
+    *pStr = str;
+    return 1;
+}
+
+template <typename T, nif_get_fun<T> get_fun>
+ERL_NIF_TERM typed_sort (ErlNifEnv* env, ERL_NIF_TERM list)
+{
+    // Check erl-list, get size
     if (!enif_is_list(env, list))
         return enif_make_badarg(env);
 
     unsigned int size = 0;
-    ERL_NIF_TERM* sortedList;
-    T num;
-    vector<T> numArr;
-    ERL_NIF_TERM head;
-    ERL_NIF_TERM tail;
-    ERL_NIF_TERM currentList;
-    ERL_NIF_TERM res;
-
     if (!enif_get_list_length(env, list, &size))  {
         //cerr << "[nif_sorter] Can't get list length" << endl;
         return enif_make_badarg(env);
     }
-    
-    currentList = list;
+
+    // Read from erl-list, build vector of values to sort + vector of original erl-values
+    ERL_NIF_TERM currentList = list;
+    ERL_NIF_TERM head;
+    ERL_NIF_TERM tail;
+    T val;
+    vector<T> valArr;
+    vector<ERL_NIF_TERM> termArr;
     for (unsigned int i = 0 ; i < size ; i++) {
         if (!enif_get_list_cell(env, currentList, &head, &tail)) {
             //cerr << "[nif_sorter] Can't get list cell at index " << i << endl;
@@ -48,77 +69,32 @@ ERL_NIF_TERM num_sort (ErlNifEnv* env, ERL_NIF_TERM list)
         }
         currentList = tail;
 
-        if (!get_fun(env, head, &num)) {
+        if (!get_fun(env, head, &val)) {
             //cerr << "[nif_sorter] Can't get cell value at index " << i << endl;
             return enif_make_badarg(env);
         }
-        numArr.push_back(num);
+
+        valArr.push_back(val);
+        termArr.push_back(head);
     }
 
-    sort(numArr.begin(), numArr.end());
+    // Sort vector of values, result is sorted indexes
+    vector<size_t> inds = sort_indexes(valArr);
 
-    sortedList = new ERL_NIF_TERM[size];
+    // Build sorted array of terms (by sorted indexes) (original terms will be reused)
+    ERL_NIF_TERM* sortedTermArr = (ERL_NIF_TERM*) enif_alloc(size * sizeof(ERL_NIF_TERM));
+    size_t ind;
     for (unsigned int i = 0 ; i < size ; i++) {
-        num = numArr[i];
-        sortedList[i] = make_fun(env, num);
+        ind = inds[i];
+        sortedTermArr[i] = termArr[ind];
     }
-    res = enif_make_list_from_array(env, sortedList, size);
-    delete sortedList;
+
+    // Convert sorted array to list
+    ERL_NIF_TERM res = enif_make_list_from_array(env, sortedTermArr, size);
+    enif_free(sortedTermArr);
 
     return res;
 }
-
-ERL_NIF_TERM str_sort (ErlNifEnv* env, ERL_NIF_TERM list)
-{
-    if (!enif_is_list(env, list))
-        return enif_make_badarg(env);
-
-    unsigned int size = 0;
-    ERL_NIF_TERM* sortedList;
-    string str;
-    vector<string> strArr;
-    ERL_NIF_TERM head;
-    ERL_NIF_TERM tail;
-    ERL_NIF_TERM currentList;
-    ErlNifBinary bin;
-    ERL_NIF_TERM res;
-
-    if (!enif_get_list_length(env, list, &size))  {
-        //cerr << "[nif_sorter] Can't get list length" << endl;
-        return enif_make_badarg(env);
-    }
-    
-    currentList = list;
-    for (unsigned int i = 0 ; i < size ; i++) {
-        if (!enif_get_list_cell(env, currentList, &head, &tail)) {
-            //cerr << "[nif_sorter] Can't get list cell at index " << i << endl;
-            return enif_make_badarg(env);
-        }
-        currentList = tail;
-
-        if (!enif_inspect_binary(env, head, &bin)) {
-            //cerr << "[nif_sorter] Can't get string info of cell at index " << i << endl;
-            return enif_make_badarg(env);
-        }
-        str = string((const char*) bin.data, bin.size);
-        strArr.push_back(str);
-    }
-
-    sort(strArr.begin(), strArr.end());
-
-    sortedList = new ERL_NIF_TERM[size];
-    for (unsigned int i = 0 ; i < size ; i++) {
-        str = strArr[i];
-        bin.size = (size_t) str.size();
-        bin.data = (unsigned char*) str.data();
-        sortedList[i] = enif_make_binary(env, &bin);
-    }
-    res = enif_make_list_from_array(env, sortedList, size);
-    delete sortedList;
-
-    return res;
-}
-
 
 
 _NifType guess_list_type(ErlNifEnv* env, ERL_NIF_TERM list)
@@ -150,32 +126,30 @@ _NifType guess_list_type(ErlNifEnv* env, ERL_NIF_TERM list)
 
 
 ERL_NIF_TERM str_sort_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
-    return str_sort(env, argv[0]);
+    return typed_sort<string, enif_get_string>(env, argv[0]);
 }
 ERL_NIF_TERM int_sort_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
-    // Don't care about memory, just use 64 bit always
-    return num_sort<ErlNifSInt64, enif_get_int64, enif_make_int64>(env, argv[0]);
+    return typed_sort<ErlNifSInt64, enif_get_int64>(env, argv[0]);
 }
 ERL_NIF_TERM float_sort_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
-    return num_sort<double, enif_get_double, enif_make_double>(env, argv[0]);
+    return typed_sort<double, enif_get_double>(env, argv[0]);
 }
 
 ERL_NIF_TERM typed_sort_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
     _NifType type = guess_list_type(env, argv[0]);
-    nif_func_1 sprt_fn = NULL;
+    nif_func_1 sort_fn = NULL;
     if (type == NIF_STRING)
-      sprt_fn = & str_sort;
+      sort_fn = & typed_sort<string, enif_get_string>;
     else if (type == NIF_FLOAT)
-      sprt_fn = & num_sort<double, enif_get_double, enif_make_double>;
+      sort_fn = & typed_sort<double, enif_get_double>;
     else if (type == NIF_INT)
-      // Don't care about memory, just use 64 bit always
-      sprt_fn = & num_sort<ErlNifSInt64, enif_get_int64, enif_make_int64>;
-    if (sprt_fn == NULL) {
+      sort_fn = & typed_sort<ErlNifSInt64, enif_get_int64>;
+    if (sort_fn == NULL) {
         //cerr << "[nif_sorter] Can't define list cells type" << endl;
         return enif_make_badarg(env);
     }
-    return (*sprt_fn)(env, argv[0]);
+    return (*sort_fn)(env, argv[0]);
 }
 
 static ErlNifFunc nif_funcs[] = {

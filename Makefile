@@ -44,3 +44,9 @@ bench/fast: dep clean
 
 bench/markdown: dep clean
 	MIX_ENV=bench $(MIX) run bench/nif_sorter_bench.ex markdown
+
+publish:
+	$(MIX) hex.publish package
+
+publish/docs:
+	$(MIX) hex.publish docs

@@ -1,6 +1,6 @@
 # Benchmark
 
-Benchmark run from 2019-07-21 20:41:27.518102Z UTC
+Benchmark run from 2019-07-23 23:14:15.108481Z UTC
 
 ## System
 
@@ -63,19 +63,19 @@ Run Time
   </tr>
   <tr>
     <td style="white-space: nowrap">NifSorter.int_sort</td>
-    <td style="white-space: nowrap; text-align: right">409.70 K</td>
-    <td style="white-space: nowrap; text-align: right">2.44 μs</td>
-    <td style="white-space: nowrap; text-align: right">±181.37%</td>
-    <td style="white-space: nowrap; text-align: right">2.16 μs</td>
-    <td style="white-space: nowrap; text-align: right">14.31 μs</td>
+    <td style="white-space: nowrap; text-align: right">345.10 K</td>
+    <td style="white-space: nowrap; text-align: right">2.90 μs</td>
+    <td style="white-space: nowrap; text-align: right">±163.41%</td>
+    <td style="white-space: nowrap; text-align: right">2.59 μs</td>
+    <td style="white-space: nowrap; text-align: right">15.16 μs</td>
   </tr>
   <tr>
     <td style="white-space: nowrap">Enum.sort</td>
-    <td style="white-space: nowrap; text-align: right">206.30 K</td>
+    <td style="white-space: nowrap; text-align: right">206.39 K</td>
     <td style="white-space: nowrap; text-align: right">4.85 μs</td>
-    <td style="white-space: nowrap; text-align: right">±187.98%</td>
-    <td style="white-space: nowrap; text-align: right">4.37 μs</td>
-    <td style="white-space: nowrap; text-align: right">18.04 μs</td>
+    <td style="white-space: nowrap; text-align: right">±173.40%</td>
+    <td style="white-space: nowrap; text-align: right">4.40 μs</td>
+    <td style="white-space: nowrap; text-align: right">17.80 μs</td>
   </tr>
 </table>
 
@@ -87,20 +87,20 @@ Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">NifSorter.int_sort</td>
-    <td style="white-space: nowrap;text-align: right">409.70 K</td>
+    <td style="white-space: nowrap;text-align: right">345.10 K</td>
     <td>&nbsp;</td>
   </tr>
   <tr>
     <td style="white-space: nowrap">Enum.sort</td>
-    <td style="white-space: nowrap; text-align: right">206.30 K</td>
-    <td style="white-space: nowrap; text-align: right">1.99x</td>
+    <td style="white-space: nowrap; text-align: right">206.39 K</td>
+    <td style="white-space: nowrap; text-align: right">1.67x</td>
   </tr>
 </table>
 
 
 <hr/>
 
-__Input: 100K integers__
+__Input: 1000 integers__
 
 Run Time
 <table style="width: 1%">
@@ -114,19 +114,19 @@ Run Time
   </tr>
   <tr>
     <td style="white-space: nowrap">NifSorter.int_sort</td>
-    <td style="white-space: nowrap; text-align: right">130.18</td>
-    <td style="white-space: nowrap; text-align: right">7.68 ms</td>
-    <td style="white-space: nowrap; text-align: right">±4.65%</td>
-    <td style="white-space: nowrap; text-align: right">7.63 ms</td>
-    <td style="white-space: nowrap; text-align: right">9.40 ms</td>
+    <td style="white-space: nowrap; text-align: right">25.82 K</td>
+    <td style="white-space: nowrap; text-align: right">38.73 μs</td>
+    <td style="white-space: nowrap; text-align: right">±28.04%</td>
+    <td style="white-space: nowrap; text-align: right">35.03 μs</td>
+    <td style="white-space: nowrap; text-align: right">80.13 μs</td>
   </tr>
   <tr>
     <td style="white-space: nowrap">Enum.sort</td>
-    <td style="white-space: nowrap; text-align: right">46.55</td>
-    <td style="white-space: nowrap; text-align: right">21.48 ms</td>
-    <td style="white-space: nowrap; text-align: right">±4.61%</td>
-    <td style="white-space: nowrap; text-align: right">21.19 ms</td>
-    <td style="white-space: nowrap; text-align: right">25.56 ms</td>
+    <td style="white-space: nowrap; text-align: right">9.22 K</td>
+    <td style="white-space: nowrap; text-align: right">108.52 μs</td>
+    <td style="white-space: nowrap; text-align: right">±16.99%</td>
+    <td style="white-space: nowrap; text-align: right">101.60 μs</td>
+    <td style="white-space: nowrap; text-align: right">187.76 μs</td>
   </tr>
 </table>
 
@@ -138,12 +138,12 @@ Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">NifSorter.int_sort</td>
-    <td style="white-space: nowrap;text-align: right">130.18</td>
+    <td style="white-space: nowrap;text-align: right">25.82 K</td>
     <td>&nbsp;</td>
   </tr>
   <tr>
     <td style="white-space: nowrap">Enum.sort</td>
-    <td style="white-space: nowrap; text-align: right">46.55</td>
+    <td style="white-space: nowrap; text-align: right">9.22 K</td>
     <td style="white-space: nowrap; text-align: right">2.8x</td>
   </tr>
 </table>
@@ -151,7 +151,7 @@ Comparison
 
 <hr/>
 
-__Input: 10K integers__
+__Input: 10000 integers__
 
 Run Time
 <table style="width: 1%">
@@ -165,19 +165,19 @@ Run Time
   </tr>
   <tr>
     <td style="white-space: nowrap">NifSorter.int_sort</td>
-    <td style="white-space: nowrap; text-align: right">1.47 K</td>
-    <td style="white-space: nowrap; text-align: right">0.68 ms</td>
-    <td style="white-space: nowrap; text-align: right">±14.66%</td>
-    <td style="white-space: nowrap; text-align: right">0.65 ms</td>
-    <td style="white-space: nowrap; text-align: right">0.96 ms</td>
+    <td style="white-space: nowrap; text-align: right">1.11 K</td>
+    <td style="white-space: nowrap; text-align: right">0.90 ms</td>
+    <td style="white-space: nowrap; text-align: right">±33.45%</td>
+    <td style="white-space: nowrap; text-align: right">0.83 ms</td>
+    <td style="white-space: nowrap; text-align: right">1.62 ms</td>
   </tr>
   <tr>
     <td style="white-space: nowrap">Enum.sort</td>
     <td style="white-space: nowrap; text-align: right">0.64 K</td>
-    <td style="white-space: nowrap; text-align: right">1.56 ms</td>
-    <td style="white-space: nowrap; text-align: right">±7.82%</td>
+    <td style="white-space: nowrap; text-align: right">1.57 ms</td>
+    <td style="white-space: nowrap; text-align: right">±8.19%</td>
     <td style="white-space: nowrap; text-align: right">1.52 ms</td>
-    <td style="white-space: nowrap; text-align: right">1.96 ms</td>
+    <td style="white-space: nowrap; text-align: right">2.00 ms</td>
   </tr>
 </table>
 
@@ -189,20 +189,20 @@ Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">NifSorter.int_sort</td>
-    <td style="white-space: nowrap;text-align: right">1.47 K</td>
+    <td style="white-space: nowrap;text-align: right">1.11 K</td>
     <td>&nbsp;</td>
   </tr>
   <tr>
     <td style="white-space: nowrap">Enum.sort</td>
     <td style="white-space: nowrap; text-align: right">0.64 K</td>
-    <td style="white-space: nowrap; text-align: right">2.3x</td>
+    <td style="white-space: nowrap; text-align: right">1.74x</td>
   </tr>
 </table>
 
 
 <hr/>
 
-__Input: 1K integers__
+__Input: 100000 integers__
 
 Run Time
 <table style="width: 1%">
@@ -216,19 +216,19 @@ Run Time
   </tr>
   <tr>
     <td style="white-space: nowrap">NifSorter.int_sort</td>
-    <td style="white-space: nowrap; text-align: right">29.07 K</td>
-    <td style="white-space: nowrap; text-align: right">34.40 μs</td>
-    <td style="white-space: nowrap; text-align: right">±39.81%</td>
-    <td style="white-space: nowrap; text-align: right">31.80 μs</td>
-    <td style="white-space: nowrap; text-align: right">74.00 μs</td>
+    <td style="white-space: nowrap; text-align: right">97.69</td>
+    <td style="white-space: nowrap; text-align: right">10.24 ms</td>
+    <td style="white-space: nowrap; text-align: right">±6.09%</td>
+    <td style="white-space: nowrap; text-align: right">10.09 ms</td>
+    <td style="white-space: nowrap; text-align: right">12.89 ms</td>
   </tr>
   <tr>
     <td style="white-space: nowrap">Enum.sort</td>
-    <td style="white-space: nowrap; text-align: right">9.16 K</td>
-    <td style="white-space: nowrap; text-align: right">109.21 μs</td>
-    <td style="white-space: nowrap; text-align: right">±20.09%</td>
-    <td style="white-space: nowrap; text-align: right">101.31 μs</td>
-    <td style="white-space: nowrap; text-align: right">205.14 μs</td>
+    <td style="white-space: nowrap; text-align: right">46.22</td>
+    <td style="white-space: nowrap; text-align: right">21.63 ms</td>
+    <td style="white-space: nowrap; text-align: right">±11.32%</td>
+    <td style="white-space: nowrap; text-align: right">20.45 ms</td>
+    <td style="white-space: nowrap; text-align: right">30.19 ms</td>
   </tr>
 </table>
 
@@ -240,13 +240,13 @@ Comparison
     <th style="text-align: right">Slower</th>
   <tr>
     <td style="white-space: nowrap">NifSorter.int_sort</td>
-    <td style="white-space: nowrap;text-align: right">29.07 K</td>
+    <td style="white-space: nowrap;text-align: right">97.69</td>
     <td>&nbsp;</td>
   </tr>
   <tr>
     <td style="white-space: nowrap">Enum.sort</td>
-    <td style="white-space: nowrap; text-align: right">9.16 K</td>
-    <td style="white-space: nowrap; text-align: right">3.17x</td>
+    <td style="white-space: nowrap; text-align: right">46.22</td>
+    <td style="white-space: nowrap; text-align: right">2.11x</td>
   </tr>
 </table>
 

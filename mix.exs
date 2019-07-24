@@ -13,7 +13,7 @@ defmodule NifSorter.Mixfile do
   def project do
     [
       app: :nif_sorter,
-      version: "0.2.0",
+      version: "0.2.1",
       elixir: "~> 1.7",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
@@ -54,6 +54,6 @@ defmodule NifSorter.Mixfile do
   end
 
   defp description do
-    "NIF sort typed list"
+    "NIF faster sort typed list"
   end
 end
